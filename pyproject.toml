@@ -1,0 +1,11 @@
+[project]
+name = "ai-engineer-labs"
+version = "0.1.0"
+description = "Hands-on labs for becoming an Agentic AI Engineer"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
