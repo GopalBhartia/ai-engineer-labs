@@ -37,6 +37,10 @@ class FeedbackResponse(BaseModel):
     message: str
 
 
+def get_llm_response(message: str) -> str:
+    return f"You said: {message}"
+
+
 @app.get("/health", response_model=HealthResponse)
 def health_check() -> HealthResponse:
     return HealthResponse(status="ok", environment=ENVIRONMENT)
@@ -44,7 +48,7 @@ def health_check() -> HealthResponse:
 
 @app.post("/chat", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
-    reply = f"You said: {request.message}"
+    reply = get_llm_response(request.message)
     return ChatResponse(reply=reply)
 
 
