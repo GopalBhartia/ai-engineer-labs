@@ -5,7 +5,10 @@ description = "Hands-on labs for becoming an Agentic AI Engineer"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "fastapi>=0.136.1",
     "pydantic>=2.13.4",
+    "python-dotenv>=1.2.2",
+    "uvicorn>=0.47.0",
 ]
 
 [tool.ruff]
