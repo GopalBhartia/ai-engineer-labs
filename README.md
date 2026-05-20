@@ -40,3 +40,12 @@ This project includes a Dockerized FastAPI app.
 
 ```bash
 docker build -t ai-engineer-fastapi .
+
+## Production environment variables
+
+This project uses environment variables for configuration.
+
+For local development, create a `.env` file in the project root:
+
+```bash
+cp .env.example .env
