@@ -41,6 +41,11 @@ def get_llm_response(message: str) -> str:
     return f"You said: {message}"
 
 
+@app.get("/")
+def read_root() -> dict[str, str]:
+    return {"message": "AI Engineer Labs FastAPI app is running"}
+
+
 @app.get("/health", response_model=HealthResponse)
 def health_check() -> HealthResponse:
     return HealthResponse(status="ok", environment=ENVIRONMENT)
