@@ -49,3 +49,23 @@ For local development, create a `.env` file in the project root:
 
 ```bash
 cp .env.example .env
+
+## Live API
+
+The FastAPI app is deployed on Render.
+
+Live API:
+
+```text
+https://ai-engineer-fastapi.onrender.com/
+
+### Deployment notes
+
+The app is deployed using Render as a Python Web Service.
+
+Render build command and start command:
+
+```bash
+pip install uv && uv sync --frozen
+uv run uvicorn week_01.day_03.main:app --host 0.0.0.0 --port $PORT
+
