@@ -1,0 +1,27 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-engineer-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.example
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16
+    container_name: ai-engineer-postgres
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

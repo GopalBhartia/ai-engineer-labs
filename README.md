@@ -32,8 +32,11 @@ Every study day must produce at least one of the following:
 - Evaluation artifact
 - GitHub commit
 
-## Current Status
+## Running the FastAPI app with Docker
 
-- [x] Day 1 setup started
-- [ ] Python environment configured
-- [ ] First commit pushed
+This project includes a Dockerized FastAPI app.
+
+### Build the Docker image manually
+
+```bash
+docker build -t ai-engineer-fastapi .
