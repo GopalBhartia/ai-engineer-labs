@@ -34,12 +34,41 @@ Every study day must produce at least one of the following:
 
 ## Running the FastAPI app with Docker
 
-This project includes a Dockerized FastAPI app.
-
 ### Build the Docker image manually
 
 ```bash
 docker build -t ai-engineer-fastapi .
+```
+
+### Run the container manually
+
+```bash
+docker run --name ai-engineer-api -p 8000:8000 ai-engineer-fastapi
+```
+
+The API will be available at:
+
+```text
+http://localhost:8000
+```
+
+Swagger UI will be available at:
+
+```text
+http://localhost:8000/docs
+```
+
+### Run with Docker Compose
+
+```bash
+docker compose up --build
+```
+
+### Stop Docker Compose
+
+```bash
+docker compose down
+```
 
 ## Production environment variables
 
@@ -49,6 +78,35 @@ For local development, create a `.env` file in the project root:
 
 ```bash
 cp .env.example .env
+```
+
+Then fill in the required values in `.env`.
+
+Example variables:
+
+```env
+ENVIRONMENT=development
+OPENAI_API_KEY=your_openai_api_key_here
+DATABASE_URL=postgresql://app_user:app_password@localhost:5432/app_db
+```
+
+Never commit real secrets such as API keys, database passwords, or tokens.
+
+For Render deployment:
+
+1. Open the Render dashboard.
+2. Select the deployed web service.
+3. Go to **Environment**.
+4. Add production values for required variables.
+5. Redeploy the service if needed.
+
+Example production variables:
+
+```env
+ENVIRONMENT=production
+OPENAI_API_KEY=<real-production-key>
+DATABASE_URL=<production-database-url>
+```
 
 ## Live API
 
@@ -58,14 +116,28 @@ Live API:
 
 ```text
 https://ai-engineer-fastapi.onrender.com/
+```
 
-### Deployment notes
+Swagger UI:
+
+```text
+https://ai-engineer-fastapi.onrender.com/docs
+```
+
+## Deployment notes
 
 The app is deployed using Render as a Python Web Service.
 
-Render build command and start command:
+Render build command:
 
 ```bash
 pip install uv && uv sync --frozen
-uv run uvicorn week_01.day_03.main:app --host 0.0.0.0 --port $PORT
+```
 
+Render start command:
+
+```bash
+uv run uvicorn week_01.day_03.main:app --host 0.0.0.0 --port $PORT
+```
+
+The `$PORT` value is provided by Render in production.
