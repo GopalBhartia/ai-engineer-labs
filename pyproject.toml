@@ -9,6 +9,7 @@ dependencies = [
     "fastapi>=0.136.1",
     "jupyter>=1.1.1",
     "matplotlib>=3.10.9",
+    "openai>=2.38.0",
     "pandas>=3.0.3",
     "pydantic>=2.13.4",
     "python-dotenv>=1.2.2",
