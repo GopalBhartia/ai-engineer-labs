@@ -32,6 +32,44 @@ Every study day must produce at least one of the following:
 - Evaluation artifact
 - GitHub commit
 
+## Local Development
+
+Run the FastAPI app locally:
+
+```bash
+uv run uvicorn week_01.day_03.main:app --reload
+```
+
+The API will be available at:
+
+```text
+http://localhost:8000
+```
+
+Swagger UI will be available at:
+
+```text
+http://localhost:8000/docs
+```
+
+Run tests:
+
+```bash
+uv run pytest
+```
+
+Run linting:
+
+```bash
+uv run ruff check .
+```
+
+Format code:
+
+```bash
+uv run ruff format .
+```
+
 ## Running the FastAPI app with Docker
 
 ### Build the Docker image manually
