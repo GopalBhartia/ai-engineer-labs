@@ -179,3 +179,25 @@ uv run uvicorn week_01.day_03.main:app --host 0.0.0.0 --port $PORT
 ```
 
 The `$PORT` value is provided by Render in production.
+
+## Week 3 - RAG Pipeline
+
+Implemented a Retrieval-Augmented Generation (RAG) workflow using:
+
+- Qdrant vector database
+- Sentence Transformers embeddings
+- OpenAI GPT-4o-mini generation
+- FastAPI `/rag/query` endpoint
+- Source citations from document metadata
+
+Run API:
+
+```bash
+uv run uvicorn week_03.day_16.api:app
+```
+
+Open API docs:
+
+```text
+http://127.0.0.1:8000/docs
+```

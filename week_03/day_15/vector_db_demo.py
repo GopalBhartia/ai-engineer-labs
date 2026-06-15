@@ -12,6 +12,11 @@ from sentence_transformers import SentenceTransformer
 COLLECTION_NAME = "ai_engineer_docs"
 EMBEDDING_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 VECTOR_SIZE = 384
+QDRANT_PATH = "./qdrant_data"
+
+model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+
+qdrant_client = QdrantClient(path=QDRANT_PATH)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "week_03" / "day_14" / "data" / "sample_docs"
@@ -202,28 +207,49 @@ def print_search_results(question: str, results: list[Any]) -> None:
         print(payload.get("text"))
 
 
-def main() -> None:
-    """Run the Day 15 vector database demo."""
-    print("Loading embedding model...")
-    model = SentenceTransformer(EMBEDDING_MODEL_NAME)
+def search_documents(
+    query: str,
+    limit: int = 5,
+) -> list[Any]:
+    """
+    Search the persisted Qdrant collection.
 
-    print("Building chunks from sample documents...")
+    Used by Day 16 RAG service.
+    """
+
+    return search_chunks(
+        client=qdrant_client,
+        model=model,
+        question=query,
+        top_k=limit,
+    )
+
+
+def initialize_vector_database() -> None:
+    """
+    Build the vector database if it does not exist.
+
+    Safe to run multiple times.
+    """
+
+    if qdrant_client.collection_exists(collection_name=COLLECTION_NAME):
+        return
+
     chunks = build_chunks(DATA_DIR)
 
-    print(f"Created {len(chunks)} chunks.")
+    create_qdrant_collection(qdrant_client)
 
-    print("Starting Qdrant local mode...")
-    client = QdrantClient(":memory:")
-
-    print("Creating Qdrant collection...")
-    create_qdrant_collection(client)
-
-    print("Upserting chunks into Qdrant...")
     upsert_chunks(
-        client=client,
+        client=qdrant_client,
         model=model,
         chunks=chunks,
     )
+
+
+def main() -> None:
+    """Run the Day 15 vector database demo."""
+
+    initialize_vector_database()
 
     test_questions = [
         "What is RAG?",
@@ -240,13 +266,20 @@ def main() -> None:
 
     for question in test_questions:
         results = search_chunks(
-            client=client,
+            client=qdrant_client,
             model=model,
             question=question,
             top_k=3,
         )
-        print_search_results(question=question, results=results)
+
+        print_search_results(
+            question=question,
+            results=results,
+        )
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    finally:
+        qdrant_client.close()
